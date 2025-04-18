@@ -21,7 +21,7 @@ Each replacement algorithm maintains its own internal data structure (e.g., queu
 
 ## Input
 
-The input is a **memory trace file** containing a list of memory accesses (instruction fetch, memory read, memory write). Each line looks like:
+The input is the name of a **memory trace file** containing a list of memory accesses (instruction fetch, memory read, memory write). The file will follow this format:
 
 ```
 I: 0x7feee195f090
@@ -29,10 +29,10 @@ W: 0x7ffe23dd2e88
 R: 0x7ffe23dd2e78
 ```
 
-The trace files below are located in the same directory.
+The trace files below are located in this directory.
 - `hello-out.txt`
 - `ls-out.txt`
-- `python-out.txt`
+- `matrixmult-out.txt`
 
 ## Output
 
@@ -42,14 +42,44 @@ The simulator prints a summary report after processing all memory references, in
 - Swap-ins
 - Swap-outs
 
-Example output:
-```
+## Example (1) 
+
+Input:
+./virtmem --file= hello-out.txt --framesize=12 --numframes=256 --replace=fifo --progress
+
+Output:
+Progress [............................................................] 100%
+Memory references: 127926
+Page faults: 119
+Swap ins: 119
+Swap outs: 0
+
+
+## Example (2) 
+
+Input:
+./virtmem --file=hello-out.txt --framesize=12     --numframes=100 --replace=*POLICY* --progress
+
+Output (FIFO):
+Progress [............................................................] 100%
+Memory references: 127926
+Page faults: 131
+Swap ins: 131
+Swap outs: 7
+
+Output (LRU):
+Progress [............................................................] 100%
+Memory references: 127926
+Page faults: 119
+Swap ins: 119
+Swap outs: 1
+
+Output (CLOCK):
 Progress [............................................................] 100%
 Memory references: 127926
 Page faults: 123
 Swap ins: 123
 Swap outs: 3
-```
 
 ## How to Run
 
